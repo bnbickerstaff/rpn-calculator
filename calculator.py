@@ -1,6 +1,6 @@
 # Import statements
 from enum import Enum
-import math
+import math # TODO: Only import needed methods
 
 # Enum used by `input_type` method
 class InputType(Enum):
@@ -39,6 +39,7 @@ class Calculator:
     # TODO: Start simple and add more later
 
     ## Other
+    # TODO: Is method below needed? If not, delete it and related enum.
     def input_type(self, input):
         input_type = None
         if type(input) == int or type(input) == float: # Not including `complex` type (for now)
