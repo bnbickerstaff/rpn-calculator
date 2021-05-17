@@ -1,17 +1,22 @@
-from calculator import Calculator, InputType
 from math import isnan
 
-class RPNCalculator(Calculator):
-    def __init__(self):
-        self.stack = []
+class RPNCalculator():
+    # Class variables
+    allowed_operations = {'+', '-', '*', '/', 'drop', 'roll', 'swap'} # TODO: Start simple and add more later
+    erroneous_input_limit = 3 # After this many erroneous inputs, will terminate execution
 
+    def __init__(self):
+        # Instance variables
+        self._stack = [] # "Private"
+
+    # Instance methods
     def run(self):
         print("Enter a number: ", end = "")
         num = self.convert_input_to_num(input())
         if isnan(num):
             print("ERROR: Did not enter a number. Terminating execution.")
             return # Exit this method
-        self.stack.append(num)
+        self._stack.append(num)
         while True:
             pass # TODO: Add functionality
 
@@ -25,6 +30,14 @@ class RPNCalculator(Calculator):
             num = float('NaN') 
         return num
 
+    ## Stack
+    def clear_stack(self):
+        pass # TODO
+
     def print_stack(self):
-        pass # TODO: Add functionality
+        pass # TODO
+
+    # TODOS
+    # - Remove whitespace before and after input
+    # - Certain operations require a stack length of at least 2 (e.g., add). Check for that.
     
