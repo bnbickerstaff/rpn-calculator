@@ -1,43 +1,45 @@
+# Import statements
 from math import isnan
 
 class RPNCalculator():
     # Class variables
-    allowed_operations = {'+', '-', '*', '/', 'drop', 'roll', 'swap'} # TODO: Start simple and add more later
-    erroneous_input_limit = 3 # After this many erroneous inputs, will terminate execution
+    VALID_OPERATIONS = {'+', '-', '*', '/', 'drop', 'roll', 'swap'} # TODO: Start simple and add more later
+    INVALID_INPUT_LIMIT = 3 # After this many invalid inputs, calculator will "turn off"
 
+    # Constructor
     def __init__(self):
         # Instance variables
-        self._stack = [] # "Private"
+        self.stack = []
+        self.invalid_input_cnt = 0
 
     # Instance methods
     def run(self):
-        print("Enter a number: ", end = "")
-        num = self.convert_input_to_num(input())
-        if isnan(num):
-            print("ERROR: Did not enter a number. Terminating execution.")
-            return # Exit this method
-        self._stack.append(num)
         while True:
-            pass # TODO: Add functionality
+            raw_input = self.get_input()
+            processed_input = self.process_input(raw_input)
+            pass # TODO
 
-    def convert_input_to_num(self, input):
-        num = None
+    def get_input(self):
+        print("Enter operation/number: ", end = "")
+        raw_input = input().strip()
+        return raw_input
+
+    def process_input(self, raw_input):
+        processed_input = None
         try:
-            num = float(input)
-            if num.is_integer():
-                num = int(num)
+            processed_input = float(raw_input)
+            if processed_input.is_integer():
+                processed_input = int(processed_input)
         except:
-            num = float('NaN') 
-        return num
-
-    ## Stack
-    def clear_stack(self):
-        pass # TODO
+            processed_input = raw_input
+        return processed_input # Either a float, int, or str
 
     def print_stack(self):
-        pass # TODO
+        print("Stack:")
+        for num in self.stack:
+            print(num)
 
     # TODOS
-    # - Remove whitespace before and after input
+    # - Make `validate_input` function with optional arg for required input type (e.g., number for very first input)
     # - Certain operations require a stack length of at least 2 (e.g., add). Check for that.
     
