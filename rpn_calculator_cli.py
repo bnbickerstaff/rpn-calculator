@@ -66,17 +66,23 @@ class RPNCalculatorCLI():
         self.invalid_input_cnt += 1
         input_is_valid = False
 
-        if len(self.stack) == 0 and refined_input['type'] != InputType.NUMBER:
+        len_stack = len(self.stack)
+        input_type = refined_input['type']
+        input_value = refined_input['value']
+
+        if len_stack == 0 and input_type != InputType.NUMBER:
             print("ERROR: Stack is empty. Cannot perform operation.\n")
-        elif refined_input['type'] == InputType.STRING and len(self.stack) != 0 and \
-            refined_input['value'] not in RPNCalculatorCLI.VALID_OPERATIONS:
+        elif input_type == InputType.STRING and len_stack != 0 and \
+            input_value not in RPNCalculatorCLI.VALID_OPERATIONS:
             print("ERROR: Entered operation not supported.\n")
-        elif refined_input['type'] == InputType.STRING and len(self.stack) == 1 and \
-            refined_input['value'] not in RPNCalculatorCLI.VALID_ONE_NUM_OPERATIONS:
+        elif input_type == InputType.STRING and len_stack == 1 and \
+            input_value not in RPNCalculatorCLI.VALID_ONE_NUM_OPERATIONS:
             print("ERROR: Cannot perform entered operation with only one element in stack.\n")
-        elif refined_input['type'] == InputType.NUMBER and \
-            len(self.stack) == RPNCalculatorCLI.STACK_LENGTH_LIMIT:
+        elif input_type == InputType.NUMBER and \
+            len_stack == RPNCalculatorCLI.STACK_LENGTH_LIMIT:
             print("ERROR: Stack is already at max capacity.\n")
+        elif input_value == '/' and self.stack[-1] == 0:
+            print("ERROR: Cannot divide by zero.\n")
         else:
             # Input is actually valid
             self.invalid_input_cnt = 0
@@ -89,7 +95,6 @@ class RPNCalculatorCLI():
             self.stack.append(refined_input['value'])
         else: # refined_input['type'] == InputType.STRING
             operation = refined_input['value']
-            len_stack = len(self.stack)
 
             if operation == 'clear' or operation == 'c':
                 self.stack.clear()
@@ -114,6 +119,7 @@ class RPNCalculatorCLI():
             elif operation == 'roll' or operation == 'r':
                 self.stack.insert(0, self.stack.pop())
             elif operation == 'swap' or operation == 's':
+                len_stack = len(self.stack)
                 self.stack[len_stack-2], self.stack[len_stack-1] = \
                     self.stack[len_stack-1], self.stack[len_stack-2]
 
@@ -135,8 +141,8 @@ class RPNCalculatorCLI():
 
 
     # TODOs:
-    # - Protect against division by zero (and other math "no-nos")
     # - Generate single .exe file
+    # - Look into virtual environment
     # - Clean up inline commnets IAW PEP 8
     # - Create help doc that is printed to CLI when "help" or "h" is entered
     # - Add more math operations (e.g., sqrt, ^, and exp)
