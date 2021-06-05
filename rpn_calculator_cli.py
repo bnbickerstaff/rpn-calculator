@@ -96,13 +96,21 @@ class RPNCalculatorCLI():
             elif operation == 'drop' or operation == 'd':
                 self.stack.pop()
             elif operation == '+':
-                self.stack.append(self.stack.pop() + self.stack.pop())
+                x = self.stack.pop()
+                y = self.stack.pop()
+                self.stack.append(y + x)
             elif operation == '-':
-                self.stack.append(-(self.stack.pop() - self.stack.pop()))
+                x = self.stack.pop()
+                y = self.stack.pop()
+                self.stack.append(y - x)
             elif operation == '*':
-                self.stack.append(self.stack.pop() * self.stack.pop())
+                x = self.stack.pop()
+                y = self.stack.pop()
+                self.stack.append(y * x)
             elif operation == '/':
-                self.stack.append(1 / (self.stack.pop() / self.stack.pop()))
+                x = self.stack.pop()
+                y = self.stack.pop()
+                self.stack.append(y / x)
             elif operation == 'roll' or operation == 'r':
                 self.stack.insert(0, self.stack.pop())
             elif operation == 'swap' or operation == 's':
