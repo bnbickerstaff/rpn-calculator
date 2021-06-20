@@ -1,5 +1,6 @@
 from enum import Enum
 from math import log10, floor
+from time import sleep
 
 
 class InputType(Enum):
@@ -32,6 +33,7 @@ class RPNCalculatorCLI():
             if input_is_valid == False:
                 if self.invalid_input_cnt == RPNCalculatorCLI.INVALID_INPUT_LIMIT:
                     print("Invalid input limit exceeded. Shutting down.\n")
+                    sleep(3) # Wait three seconds
                     break
                 else:
                     continue
@@ -141,8 +143,6 @@ class RPNCalculatorCLI():
 
 
     # TODOs:
-    # - Generate single .exe file
-    # - Look into virtual environment
     # - Clean up inline commnets IAW PEP 8
     # - Create help doc that is printed to CLI when "help" or "h" is entered
     # - Add more math operations (e.g., sqrt, ^, and exp)

@@ -1,2 +1,5 @@
 tester.py
 __pycache__
+env
+build
+*.spec
