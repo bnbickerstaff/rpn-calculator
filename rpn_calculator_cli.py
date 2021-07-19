@@ -31,12 +31,10 @@ class RPNCalculatorCLI():
         self.invalid_input_cnt = 0
 
     def run(self):
-        # Make opening statement
         print("REVERSE POLISH NOTATION (RPN) CALCULATOR")
         print("COMMAND-LINE INTERFACE (CLI) VERSION")
-        # print("At any time, enter 'help' or 'h' for help.\n") TODO: Uncomment after get 'help' and 'h' working properly
+        print("At any time, enter 'help' or 'h' for help.\n")
 
-        # Run
         while True:
             raw_input = self.get_input()
             refined_input = self.refine_input(raw_input)
@@ -85,7 +83,11 @@ class RPNCalculatorCLI():
         input_type = refined_input['type']
         input_value = refined_input['value']
 
-        if len_stack == 0 and input_type != InputType.NUMBER:
+        if input_value == 'help' or input_value == 'h':
+            # Input is actually valid
+            self.invalid_input_cnt = 0
+            input_is_valid = True
+        elif len_stack == 0 and input_type != InputType.NUMBER:
             print("ERROR: Stack is empty. Cannot perform operation.\n")
         elif input_type == InputType.STRING and len_stack != 0 and \
             input_value not in RPNCalculatorCLI.VALID_OPERATIONS:
@@ -112,7 +114,10 @@ class RPNCalculatorCLI():
         else:  # refined_input['type'] == InputType.STRING
             operation = refined_input['value']
 
-            if operation == 'clear' or operation == 'c':
+            if operation == 'help' or operation == 'h':
+                with open('help.txt', 'r') as help_txt:
+                    print('\n', help_txt.read(), sep='')
+            elif operation == 'clear' or operation == 'c':
                 self.stack.clear()
             elif operation == 'drop' or operation == 'd':
                 self.stack.pop()
@@ -157,6 +162,5 @@ class RPNCalculatorCLI():
 
 
     # TODOs:
-    # - Make 'help' or 'h' work even with an empty stack (and don't print "Stack: " after)
     # - Add more math operations (e.g., sqrt, ^, and exp)
     
