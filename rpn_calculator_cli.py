@@ -115,6 +115,7 @@ class RPNCalculatorCLI():
             operation = refined_input['value']
 
             if operation == 'help' or operation == 'h':
+                # Not REALLY an operation
                 with open('help.txt', 'r') as help_txt:
                     print('\n', help_txt.read(), sep='')
             elif operation == 'clear' or operation == 'c':
