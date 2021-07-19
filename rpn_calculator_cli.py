@@ -9,16 +9,22 @@ class InputType(Enum):
 
 
 class RPNCalculatorCLI():
+    # Valid operations that require stack length of at least one and
+    # two, respectively, and their union
+    VALID_ONE_NUM_OPERATIONS = {'clear', 'c', 'drop', 'd'}
+    VALID_TWO_NUM_OPERATIONS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}
+    VALID_OPERATIONS = tuple(
+        VALID_ONE_NUM_OPERATIONS.union(VALID_TWO_NUM_OPERATIONS))
 
-    VALID_ONE_NUM_OPERATIONS = {'clear', 'c', 'drop', 'd'}  # Require stack length of at least one
-    VALID_TWO_NUM_OPERATIONS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}  # Require stack length of at least two
-    VALID_OPERATIONS = tuple(VALID_ONE_NUM_OPERATIONS.union(VALID_TWO_NUM_OPERATIONS))
+    # Stack can only hold this many numbers
+    STACK_LENGTH_LIMIT = 10
+    # Indices to print alongside stack elements
+    PRINT_STACK_INDICES = ('x', 'y', *range(3, STACK_LENGTH_LIMIT + 1))
+    # Field width for printing latter indices
+    INDEX_PRINT_WIDTH = floor(log10(STACK_LENGTH_LIMIT)) + 1
 
-    STACK_LENGTH_LIMIT = 10  # Stack can only hold this many numbers
-    PRINT_STACK_INDICES = ('x', 'y', *range(3, STACK_LENGTH_LIMIT + 1))  # Indices to print alongside stack elements
-    INDEX_PRINT_WIDTH = floor(log10(STACK_LENGTH_LIMIT)) + 1  # Field width for printing latter indices
-
-    INVALID_INPUT_LIMIT = 3  # After this many invalid inputs, calculator will "shut down"
+    # After this many invalid inputs, calculator will "shut down"
+    INVALID_INPUT_LIMIT = 3
 
     def __init__(self):
         self.stack = []
@@ -31,9 +37,10 @@ class RPNCalculatorCLI():
             input_is_valid = self.validate_input(refined_input)
 
             if input_is_valid == False:
-                if self.invalid_input_cnt == RPNCalculatorCLI.INVALID_INPUT_LIMIT:
+                if self.invalid_input_cnt == \
+                    RPNCalculatorCLI.INVALID_INPUT_LIMIT:
                     print("Invalid input limit exceeded. Shutting down.\n")
-                    sleep(3) # Wait three seconds
+                    sleep(3)  # Wait three seconds
                     break
                 else:
                     continue
@@ -79,7 +86,8 @@ class RPNCalculatorCLI():
             print("ERROR: Entered operation not supported.\n")
         elif input_type == InputType.STRING and len_stack == 1 and \
             input_value not in RPNCalculatorCLI.VALID_ONE_NUM_OPERATIONS:
-            print("ERROR: Cannot perform entered operation with only one element in stack.\n")
+            print("ERROR: Cannot perform entered operation with ", end="")
+            print("only one element in stack.\n")
         elif input_type == InputType.NUMBER and \
             len_stack == RPNCalculatorCLI.STACK_LENGTH_LIMIT:
             print("ERROR: Stack is already at max capacity.\n")
@@ -95,7 +103,7 @@ class RPNCalculatorCLI():
     def process_input(self, refined_input):
         if refined_input['type'] == InputType.NUMBER:
             self.stack.append(refined_input['value'])
-        else: # refined_input['type'] == InputType.STRING
+        else:  # refined_input['type'] == InputType.STRING
             operation = refined_input['value']
 
             if operation == 'clear' or operation == 'c':
@@ -143,7 +151,6 @@ class RPNCalculatorCLI():
 
 
     # TODOs:
-    # - Clean up inline commnets IAW PEP 8
     # - Create help doc that is printed to CLI when "help" or "h" is entered
     # - Add more math operations (e.g., sqrt, ^, and exp)
     
