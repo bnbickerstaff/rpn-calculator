@@ -31,6 +31,12 @@ class RPNCalculatorCLI():
         self.invalid_input_cnt = 0
 
     def run(self):
+        # Make opening statement
+        print("REVERSE POLISH NOTATION (RPN) CALCULATOR")
+        print("COMMAND-LINE INTERFACE (CLI) VERSION")
+        # print("At any time, enter 'help' or 'h' for help.\n") TODO: Uncomment after get 'help' and 'h' working properly
+
+        # Run
         while True:
             raw_input = self.get_input()
             refined_input = self.refine_input(raw_input)
@@ -151,6 +157,6 @@ class RPNCalculatorCLI():
 
 
     # TODOs:
-    # - Create help doc that is printed to CLI when "help" or "h" is entered
+    # - Make 'help' or 'h' work even with an empty stack (and don't print "Stack: " after)
     # - Add more math operations (e.g., sqrt, ^, and exp)
     
