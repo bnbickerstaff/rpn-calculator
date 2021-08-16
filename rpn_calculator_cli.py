@@ -32,7 +32,6 @@ class RPNCalculatorCLI():
 
     def run(self):
         print("REVERSE POLISH NOTATION (RPN) CALCULATOR")
-        print("COMMAND-LINE INTERFACE (CLI) VERSION")
         print("At any time, enter 'help' or 'h' for help.\n")
 
         while True:
@@ -163,5 +162,5 @@ class RPNCalculatorCLI():
 
 
     # TODOs:
-    # - Add more math operations (e.g., sqrt, ^, and exp)
+    # - Add more math operations (e.g., ^, exp, and sqrt)
     
