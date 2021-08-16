@@ -12,4 +12,4 @@ VALID OPERATIONS
 
 MISCELLANEOUS NOTES
 - The maximum stack length is ten.
-- After three invalid inputs, the CLI will close.
+- After three invalid inputs, the command-line interface will close.

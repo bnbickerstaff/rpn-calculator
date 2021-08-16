@@ -159,8 +159,3 @@ class RPNCalculatorCLI():
                 width0=RPNCalculatorCLI.INDEX_PRINT_WIDTH,
                 width1=stack_print_width))
         print()
-
-
-    # TODOs:
-    # - Add more math operations (e.g., ^, exp, and sqrt)
-    
