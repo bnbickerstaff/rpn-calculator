@@ -11,5 +11,5 @@ VALID OPERATIONS
     - "swap" or "s" to swap the top (xth) and second-to-top (yth) elements
 
 MISCELLANEOUS NOTES
-- The maximum stack length is 100.
-- After three invalid inputs, the command-line interface will close.
+- The maximum stack length is 100
+- After three invalid inputs, the application will close
