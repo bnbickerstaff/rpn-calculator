@@ -7,14 +7,15 @@ class InputType(Enum):
     NUMBER = 1
     STRING = 2
 
-
+# TODO: Add ability to terminate program (e.g., via "end" or "e")
 class RPNCalculator():
-    # Valid operations that require stack length of at least one and
-    # two, respectively, and their union
+    # Valid operations that require stack length of at least zero, one,
+    # and two, respectively, and their union
+    VALID_ZERO_NUM_OPERATIONS = {'help', 'h'}
     VALID_ONE_NUM_OPERATIONS = {'clear', 'c', 'drop', 'd'}
     VALID_TWO_NUM_OPERATIONS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}
-    VALID_OPERATIONS = tuple(
-        VALID_ONE_NUM_OPERATIONS.union(VALID_TWO_NUM_OPERATIONS))
+    VALID_OPERATIONS = tuple(VALID_ZERO_NUM_OPERATIONS.union(
+        VALID_ONE_NUM_OPERATIONS, VALID_TWO_NUM_OPERATIONS))
 
     # Stack can only hold this many numbers
     STACK_LENGTH_LIMIT = 100
@@ -82,11 +83,8 @@ class RPNCalculator():
         input_type = refined_input['type']
         input_value = refined_input['value']
 
-        if input_value == 'help' or input_value == 'h':
-            # Input is actually valid
-            self.invalid_input_cnt = 0
-            input_is_valid = True
-        elif len_stack == 0 and input_type != InputType.NUMBER:
+        if len_stack == 0 and input_type != InputType.NUMBER and \
+            input_value not in RPNCalculator.VALID_ZERO_NUM_OPERATIONS:
             print('ERROR: Stack is empty. Cannot perform operation.\n')
         elif input_type == InputType.STRING and len_stack != 0 and \
             input_value not in RPNCalculator.VALID_OPERATIONS:
