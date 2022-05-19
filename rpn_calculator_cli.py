@@ -17,7 +17,7 @@ class RPNCalculatorCLI():
         VALID_ONE_NUM_OPERATIONS.union(VALID_TWO_NUM_OPERATIONS))
 
     # Stack can only hold this many numbers
-    STACK_LENGTH_LIMIT = 10
+    STACK_LENGTH_LIMIT = 100
     # Indices to print alongside stack elements
     PRINT_STACK_INDICES = ('x', 'y', *range(3, STACK_LENGTH_LIMIT + 1))
     # Field width for printing latter indices
@@ -31,18 +31,18 @@ class RPNCalculatorCLI():
         self.invalid_input_cnt = 0
 
     def run(self):
-        print("REVERSE POLISH NOTATION (RPN) CALCULATOR")
-        print("At any time, enter 'help' or 'h' for help.\n")
+        print('REVERSE POLISH NOTATION (RPN) CALCULATOR')
+        print('At any time, enter "help" or "h" for help.\n')
 
         while True:
             raw_input = self.get_input()
             refined_input = self.refine_input(raw_input)
             input_is_valid = self.validate_input(refined_input)
 
-            if input_is_valid == False:
+            if not input_is_valid:
                 if self.invalid_input_cnt == \
                     RPNCalculatorCLI.INVALID_INPUT_LIMIT:
-                    print("Invalid input limit exceeded. Shutting down.\n")
+                    print('Invalid input limit exceeded. Shutting down.\n')
                     sleep(3)  # Wait three seconds
                     break
                 else:
@@ -53,7 +53,7 @@ class RPNCalculatorCLI():
             self.print_stack()
 
     def get_input(self):
-        print("Operation/number: ", end="")
+        print('Operation/number: ', end='')
         raw_input = input().strip()
 
         return raw_input
@@ -87,19 +87,19 @@ class RPNCalculatorCLI():
             self.invalid_input_cnt = 0
             input_is_valid = True
         elif len_stack == 0 and input_type != InputType.NUMBER:
-            print("ERROR: Stack is empty. Cannot perform operation.\n")
+            print('ERROR: Stack is empty. Cannot perform operation.\n')
         elif input_type == InputType.STRING and len_stack != 0 and \
             input_value not in RPNCalculatorCLI.VALID_OPERATIONS:
-            print("ERROR: Entered operation not supported.\n")
+            print('ERROR: Entered operation not supported.\n')
         elif input_type == InputType.STRING and len_stack == 1 and \
             input_value not in RPNCalculatorCLI.VALID_ONE_NUM_OPERATIONS:
-            print("ERROR: Cannot perform entered operation with ", end="")
-            print("only one element in stack.\n")
+            print('ERROR: Cannot perform entered operation with ', end='')
+            print('only one element in stack.\n')
         elif input_type == InputType.NUMBER and \
             len_stack == RPNCalculatorCLI.STACK_LENGTH_LIMIT:
-            print("ERROR: Stack is already at max capacity.\n")
+            print('ERROR: Stack is already at max capacity.\n')
         elif input_value == '/' and self.stack[-1] == 0:
-            print("ERROR: Cannot divide by zero.\n")
+            print('ERROR: Cannot divide by zero.\n')
         else:
             # Input is actually valid
             self.invalid_input_cnt = 0
@@ -151,9 +151,9 @@ class RPNCalculatorCLI():
         if len_stack != 0:
             stack_print_width = max([len(str(num)) for num in self.stack])
 
-        print("\nStack:")
+        print('\nStack:')
         for i, num in enumerate(self.stack):
-            print("{0:>{width0}}: {1:>{width1}}".format(
+            print('{0:>{width0}}: {1:>{width1}}'.format(
                 RPNCalculatorCLI.PRINT_STACK_INDICES[len_stack-1-i],
                 num,
                 width0=RPNCalculatorCLI.INDEX_PRINT_WIDTH,

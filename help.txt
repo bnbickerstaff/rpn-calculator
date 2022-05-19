@@ -1,15 +1,15 @@
 VALID OPERATIONS
 - Mathematics:
-    - '+' for addition
-    - '-' for subtraction, where x and y are the subtrahend and minuend, respectively
-    - '*' for multiplication
-    - '/' for division, where x and y are the divisor and dividend, respectively
+    - "+" for addition
+    - "-" for subtraction, where x and y are the subtrahend and minuend, respectively
+    - "*" for multiplication
+    - "/" for division, where x and y are the divisor and dividend, respectively
 - Stack management:
-    - 'clear' or 'c' to clear all the elements
-    - 'drop' or 'd' to drop the top (xth) element
-    - 'roll' or 'r' to roll the top (xth) element to the bottom
-    - 'swap' or 's' to swap the top (xth) and second-to-top (yth) elements
+    - "clear" or "c" to clear all the elements
+    - "drop" or "d" to drop the top (xth) element
+    - "roll" or "r" to roll the top (xth) element to the bottom
+    - "swap" or "s" to swap the top (xth) and second-to-top (yth) elements
 
 MISCELLANEOUS NOTES
-- The maximum stack length is ten.
+- The maximum stack length is 100.
 - After three invalid inputs, the command-line interface will close.
