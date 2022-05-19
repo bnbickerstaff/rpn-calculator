@@ -8,7 +8,7 @@ class InputType(Enum):
     STRING = 2
 
 
-class RPNCalculatorCLI():
+class RPNCalculator():
     # Valid operations that require stack length of at least one and
     # two, respectively, and their union
     VALID_ONE_NUM_OPERATIONS = {'clear', 'c', 'drop', 'd'}
@@ -41,7 +41,7 @@ class RPNCalculatorCLI():
 
             if not input_is_valid:
                 if self.invalid_input_cnt == \
-                    RPNCalculatorCLI.INVALID_INPUT_LIMIT:
+                    RPNCalculator.INVALID_INPUT_LIMIT:
                     print('Invalid input limit exceeded. Shutting down.\n')
                     sleep(3)  # Wait three seconds
                     break
@@ -89,14 +89,14 @@ class RPNCalculatorCLI():
         elif len_stack == 0 and input_type != InputType.NUMBER:
             print('ERROR: Stack is empty. Cannot perform operation.\n')
         elif input_type == InputType.STRING and len_stack != 0 and \
-            input_value not in RPNCalculatorCLI.VALID_OPERATIONS:
+            input_value not in RPNCalculator.VALID_OPERATIONS:
             print('ERROR: Entered operation not supported.\n')
         elif input_type == InputType.STRING and len_stack == 1 and \
-            input_value not in RPNCalculatorCLI.VALID_ONE_NUM_OPERATIONS:
+            input_value not in RPNCalculator.VALID_ONE_NUM_OPERATIONS:
             print('ERROR: Cannot perform entered operation with ', end='')
             print('only one element in stack.\n')
         elif input_type == InputType.NUMBER and \
-            len_stack == RPNCalculatorCLI.STACK_LENGTH_LIMIT:
+            len_stack == RPNCalculator.STACK_LENGTH_LIMIT:
             print('ERROR: Stack is already at max capacity.\n')
         elif input_value == '/' and self.stack[-1] == 0:
             print('ERROR: Cannot divide by zero.\n')
@@ -154,8 +154,8 @@ class RPNCalculatorCLI():
         print('\nStack:')
         for i, num in enumerate(self.stack):
             print('{0:>{width0}}: {1:>{width1}}'.format(
-                RPNCalculatorCLI.PRINT_STACK_INDICES[len_stack-1-i],
+                RPNCalculator.PRINT_STACK_INDICES[len_stack-1-i],
                 num,
-                width0=RPNCalculatorCLI.INDEX_PRINT_WIDTH,
+                width0=RPNCalculator.INDEX_PRINT_WIDTH,
                 width1=stack_print_width))
         print()
