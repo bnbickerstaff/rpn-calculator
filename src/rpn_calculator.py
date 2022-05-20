@@ -1,5 +1,5 @@
 from enum import Enum
-from math import log10, floor
+from math import floor, log10
 from time import sleep
 from sys import exit
 
@@ -10,26 +10,26 @@ class InputType(Enum):
 
 
 class RPNCalculator():
-    # Valid operations that require stack length of at least zero, one,
-    # and two, respectively, and some of their unions
-    VALID_ZERO_NUM_OPERATIONS = {'help', 'h', 'quit', 'q'}
-    VALID_ONE_NUM_OPERATIONS = {'clear', 'c', 'drop', 'd'}
-    VALID_TWO_NUM_OPERATIONS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}
+    # Valid operations that require a stack length of at least zero,
+    # one, and two, respectively, and their relevant unions
+    VALID_ZERO_NUM_OPS = {'help', 'h', 'quit', 'q'}
+    VALID_ONE_NUM_OPS = {'clear', 'c', 'drop', 'd'}
+    VALID_TWO_NUM_OPS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}
+    VALID_ZERO_OR_ONE_NUM_OPS = VALID_ZERO_NUM_OPS.union(VALID_ONE_NUM_OPS)
+    VALID_OPS = tuple(VALID_ZERO_OR_ONE_NUM_OPS.union(VALID_TWO_NUM_OPS))
+    VALID_ZERO_OR_ONE_NUM_OPS = tuple(VALID_ZERO_OR_ONE_NUM_OPS)
 
-    VALID_ZERO_OR_ONE_NUM_OPERATIONS = VALID_ZERO_NUM_OPERATIONS.union(
-        VALID_ONE_NUM_OPERATIONS)
-    VALID_OPERATIONS = tuple(VALID_ZERO_OR_ONE_NUM_OPERATIONS.union(
-        VALID_TWO_NUM_OPERATIONS))
-    VALID_ZERO_OR_ONE_NUM_OPERATIONS = tuple(VALID_ZERO_OR_ONE_NUM_OPERATIONS)
-
-    # Stack can only hold this many numbers
+    # Stack can only hold this many numbers. (Must be >= 2.)
     STACK_LENGTH_LIMIT = 100
-    # Indices to print alongside stack elements
-    PRINT_STACK_INDICES = ('x', 'y', *range(3, STACK_LENGTH_LIMIT + 1))
-    # Field width for printing latter indices
+    # Indices to print alongside the stack elements
+    PRINT_STACK_INDICES = ['x', 'y']
+    if STACK_LENGTH_LIMIT > 2:
+        PRINT_STACK_INDICES.extend(range(3, STACK_LENGTH_LIMIT + 1))
+    PRINT_STACK_INDICES = tuple(PRINT_STACK_INDICES)
+    # Field width for printing the latter indices
     INDEX_PRINT_WIDTH = floor(log10(STACK_LENGTH_LIMIT)) + 1
 
-    # After this many invalid inputs, calculator will shut down
+    # After this many invalid inputs, the calculator will shut down
     INVALID_INPUT_LIMIT = 3
 
     def __init__(self):
@@ -80,7 +80,7 @@ class RPNCalculator():
         return refined_input
 
     def validate_input(self, refined_input):
-        # Assume input is invalid
+        # Assume the input is invalid
         self.invalid_input_cnt += 1
         input_is_valid = False
 
@@ -89,13 +89,13 @@ class RPNCalculator():
         input_value = refined_input['value']
 
         if len_stack == 0 and input_type != InputType.NUMBER and \
-            input_value not in RPNCalculator.VALID_ZERO_NUM_OPERATIONS:
+            input_value not in RPNCalculator.VALID_ZERO_NUM_OPS:
             print('ERROR: Stack is empty. Cannot perform operation.\n')
         elif input_type == InputType.STRING and len_stack != 0 and \
-            input_value not in RPNCalculator.VALID_OPERATIONS:
+            input_value not in RPNCalculator.VALID_OPS:
             print('ERROR: Entered operation not supported.\n')
         elif input_type == InputType.STRING and len_stack == 1 and \
-            input_value not in RPNCalculator.VALID_ZERO_OR_ONE_NUM_OPERATIONS:
+            input_value not in RPNCalculator.VALID_ZERO_OR_ONE_NUM_OPS:
             print('ERROR: Cannot perform entered operation with ', end='')
             print('only one element in stack.\n')
         elif input_type == InputType.NUMBER and \
