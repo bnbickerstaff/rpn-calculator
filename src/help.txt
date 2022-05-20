@@ -13,4 +13,4 @@ VALID OPERATIONS
 MISCELLANEOUS NOTES
 - Enter "quit" or "q" to terminate the application
 - The maximum stack length is 100
-- After three invalid inputs, the application will close
+- After three invalid inputs, the application will shut down

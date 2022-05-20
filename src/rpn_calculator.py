@@ -11,12 +11,16 @@ class InputType(Enum):
 
 class RPNCalculator():
     # Valid operations that require stack length of at least zero, one,
-    # and two, respectively, and their union
+    # and two, respectively, and some of their unions
     VALID_ZERO_NUM_OPERATIONS = {'help', 'h', 'quit', 'q'}
     VALID_ONE_NUM_OPERATIONS = {'clear', 'c', 'drop', 'd'}
     VALID_TWO_NUM_OPERATIONS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}
-    VALID_OPERATIONS = tuple(VALID_ZERO_NUM_OPERATIONS.union(
-        VALID_ONE_NUM_OPERATIONS, VALID_TWO_NUM_OPERATIONS))
+
+    VALID_ZERO_OR_ONE_NUM_OPERATIONS = VALID_ZERO_NUM_OPERATIONS.union(
+        VALID_ONE_NUM_OPERATIONS)
+    VALID_OPERATIONS = tuple(VALID_ZERO_OR_ONE_NUM_OPERATIONS.union(
+        VALID_TWO_NUM_OPERATIONS))
+    VALID_ZERO_OR_ONE_NUM_OPERATIONS = tuple(VALID_ZERO_OR_ONE_NUM_OPERATIONS)
 
     # Stack can only hold this many numbers
     STACK_LENGTH_LIMIT = 100
@@ -25,7 +29,7 @@ class RPNCalculator():
     # Field width for printing latter indices
     INDEX_PRINT_WIDTH = floor(log10(STACK_LENGTH_LIMIT)) + 1
 
-    # After this many invalid inputs, calculator will "shut down"
+    # After this many invalid inputs, calculator will shut down
     INVALID_INPUT_LIMIT = 3
 
     def __init__(self):
@@ -90,9 +94,8 @@ class RPNCalculator():
         elif input_type == InputType.STRING and len_stack != 0 and \
             input_value not in RPNCalculator.VALID_OPERATIONS:
             print('ERROR: Entered operation not supported.\n')
-        # TODO: Fix below so able to get help and quit with only one element in stack
         elif input_type == InputType.STRING and len_stack == 1 and \
-            input_value not in RPNCalculator.VALID_ONE_NUM_OPERATIONS:
+            input_value not in RPNCalculator.VALID_ZERO_OR_ONE_NUM_OPERATIONS:
             print('ERROR: Cannot perform entered operation with ', end='')
             print('only one element in stack.\n')
         elif input_type == InputType.NUMBER and \
