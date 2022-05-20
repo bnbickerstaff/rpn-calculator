@@ -1,17 +1,18 @@
 from enum import Enum
 from math import log10, floor
 from time import sleep
+from sys import exit
 
 
 class InputType(Enum):
     NUMBER = 1
     STRING = 2
 
-# TODO: Add ability to terminate program (e.g., via "end" or "e")
+
 class RPNCalculator():
     # Valid operations that require stack length of at least zero, one,
     # and two, respectively, and their union
-    VALID_ZERO_NUM_OPERATIONS = {'help', 'h'}
+    VALID_ZERO_NUM_OPERATIONS = {'help', 'h', 'quit', 'q'}
     VALID_ONE_NUM_OPERATIONS = {'clear', 'c', 'drop', 'd'}
     VALID_TWO_NUM_OPERATIONS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}
     VALID_OPERATIONS = tuple(VALID_ZERO_NUM_OPERATIONS.union(
@@ -40,7 +41,9 @@ class RPNCalculator():
             refined_input = self.refine_input(raw_input)
             input_is_valid = self.validate_input(refined_input)
 
-            if not input_is_valid:
+            if input_is_valid:
+                self.process_input(refined_input)
+            else:
                 if self.invalid_input_cnt == \
                     RPNCalculator.INVALID_INPUT_LIMIT:
                     print('Invalid input limit exceeded. Shutting down.\n')
@@ -48,8 +51,6 @@ class RPNCalculator():
                     break
                 else:
                     continue
-            else:
-                self.process_input(refined_input)
 
             self.print_stack()
 
@@ -89,6 +90,7 @@ class RPNCalculator():
         elif input_type == InputType.STRING and len_stack != 0 and \
             input_value not in RPNCalculator.VALID_OPERATIONS:
             print('ERROR: Entered operation not supported.\n')
+        # TODO: Fix below so able to get help and quit with only one element in stack
         elif input_type == InputType.STRING and len_stack == 1 and \
             input_value not in RPNCalculator.VALID_ONE_NUM_OPERATIONS:
             print('ERROR: Cannot perform entered operation with ', end='')
@@ -115,10 +117,6 @@ class RPNCalculator():
                 # Not REALLY an operation
                 with open('help.txt', 'r') as help_txt:
                     print('\n', help_txt.read(), sep='')
-            elif operation == 'clear' or operation == 'c':
-                self.stack.clear()
-            elif operation == 'drop' or operation == 'd':
-                self.stack.pop()
             elif operation == '+':
                 x = self.stack.pop()
                 y = self.stack.pop()
@@ -135,12 +133,18 @@ class RPNCalculator():
                 x = self.stack.pop()
                 y = self.stack.pop()
                 self.stack.append(y / x)
+            elif operation == 'clear' or operation == 'c':
+                self.stack.clear()
+            elif operation == 'drop' or operation == 'd':
+                self.stack.pop()
             elif operation == 'roll' or operation == 'r':
                 self.stack.insert(0, self.stack.pop())
             elif operation == 'swap' or operation == 's':
                 len_stack = len(self.stack)
                 self.stack[len_stack-2], self.stack[len_stack-1] = \
                     self.stack[len_stack-1], self.stack[len_stack-2]
+            else:  # operation == 'quit' or operation == 'q':
+                exit('\nApplication terminated.\n')
 
     def print_stack(self):
         stack_print_width = 0

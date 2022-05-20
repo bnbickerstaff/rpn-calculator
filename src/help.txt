@@ -11,5 +11,6 @@ VALID OPERATIONS
     - "swap" or "s" to swap the top (xth) and second-to-top (yth) elements
 
 MISCELLANEOUS NOTES
+- Enter "quit" or "q" to terminate the application
 - The maximum stack length is 100
 - After three invalid inputs, the application will close
