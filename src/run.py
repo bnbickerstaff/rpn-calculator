@@ -1,4 +1,4 @@
-from rpn_calculator import RPNCalculator
+from rpn_calculator_cli import RPNCalculatorCLI
 
-rpn_calculator = RPNCalculator()
-rpn_calculator.run()
+rpn_calculator_cli = RPNCalculatorCLI()
+rpn_calculator_cli.run()
