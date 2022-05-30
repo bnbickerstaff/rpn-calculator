@@ -60,7 +60,7 @@ class RPNCalculatorCLI(RPNCalculator):
             print('only one element in stack.\n')
         elif error == Error.FULL_STACK:
             print('ERROR: Stack is already at max capacity.\n')
-        else:  # error == Error.DIVIDE_BY_ZERO
+        else:  # error == Error.DIVISION_BY_ZERO
             print('ERROR: Cannot divide by zero.\n')
         
         return proceed_flag
