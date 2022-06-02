@@ -1,13 +1,23 @@
+"""Implementation of a reverse Polish notation (RPN) calculator
+
+'Pieces' of the enum and abc modules are imported for the calculator,
+which is implemented as an abstract base class (ABC).
+"""
+
 from enum import Enum
 from abc import ABC, abstractmethod
 
 
 class InputType(Enum):
+    """Input-type enumeration used by RPNCalculator"""
+
     NUMBER = 1
     STRING = 2
 
 
 class Error(Enum):
+    """Error enumeration used by RPNCalculator"""
+
     NONE = 1
     INVALID_OP_EMPTY_STACK = 2
     UNSUPPORTED_OP = 3
@@ -17,24 +27,44 @@ class Error(Enum):
 
 
 class RPNCalculator(ABC):
-    # Commands/operations that are always valid, require a stack length
-    # of at least one, and require a stack length at least two,
-    # respectively; defined as sets so their relevant unions can be
-    # easily computed
+    """RPN calculator ABC
+    
+    Class variables
+    ---------------
+
+    ALWAYS_VALID_CMDS, VALID_ONE_NUM_OPS, and VALID_TWO_NUM_OPS
+        Commands/operations that are always valid, require a stack
+        length of at least one, and require a stack length at least two,
+        respectively; defined as sets so their relevant unions can be
+        easily computed
+
+    STACK_LENGTH_LIMIT
+        Stack can only hold this many numbers
+
+    DISPLAY_STACK_INDICES
+        Indices to display alongside the stack elements
+
+    INVALID_INPUT_LIMIT
+        After this many invalid inputs, the calculator will shut down
+    """
+
     ALWAYS_VALID_CMDS = {'help', 'h', 'quit', 'q'}
     VALID_ONE_NUM_OPS = {'clear', 'c', 'drop', 'd'}
     VALID_TWO_NUM_OPS = {'+', '-', '*', '/', 'roll', 'r', 'swap', 's'}
-
-    # Stack can only hold this many numbers
     STACK_LENGTH_LIMIT = 100  # Must be an int >= 2
-
-    # Indices to display alongside the stack elements
     DISPLAY_STACK_INDICES = ('x', 'y', *range(3, STACK_LENGTH_LIMIT + 1))
-
-    # After this many invalid inputs, the calculator will shut down
     INVALID_INPUT_LIMIT = 5  # Must be a natural number
 
     def __init__(self):
+        """Create and return an RPN calculator object.
+        
+        Because RPNCalculator is an ABC, this method can only be called
+        via a derived class.
+        
+        The two instance variables are the stack--a list--and the count
+        of the number of invalid inputs.
+        """
+
         self.stack = []
         self.invalid_input_cnt = 0
 
@@ -63,7 +93,6 @@ class RPNCalculator(ABC):
             refined_input['value'] = float(raw_input)
             if refined_input['value'].is_integer():
                 refined_input['value'] = int(refined_input['value'])
-
             refined_input['type'] = InputType.NUMBER
         except:
             refined_input['type'] = InputType.STRING
@@ -83,7 +112,6 @@ class RPNCalculator(ABC):
         len_stack = len(self.stack)
         input_type = refined_input['type']
         input_value = refined_input['value']
-
         if input_type == InputType.STRING and \
             input_value not in RPNCalculator.ALWAYS_VALID_CMDS.union(
                 RPNCalculator.VALID_ONE_NUM_OPS,
@@ -148,5 +176,9 @@ class RPNCalculator(ABC):
                 self.stack[-2], self.stack[-1] = self.stack[-1], self.stack[-2]
 
     def display_stack(self):
-        """Display the stack (e.g., in the CLI or desktop GUI)."""
+        """Display the stack.
+        
+        For example, in a command-line or desktop graphical user
+        interface--dependant on how the derived class utilizes this ABC
+        """
         pass
