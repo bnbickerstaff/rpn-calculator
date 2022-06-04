@@ -1,3 +1,9 @@
+"""RPN calculator that runs in a command-line interface (CLI)
+
+'Pieces' of the rpn_calculator, math, time, and sys modules are imported
+for the command-line calculator.
+"""
+
 from rpn_calculator import RPNCalculator, Error, InputType
 from math import floor, log10
 from time import sleep
@@ -5,8 +11,6 @@ from sys import exit
 
 
 class RPNCalculatorCLI(RPNCalculator):
-    # Field width for printing the display stack indices
-    INDEX_PRINT_WIDTH = floor(log10(RPNCalculator.STACK_LENGTH_LIMIT)) + 1  # TODO: Make "dynamic" in display_stack?
 
     def run(self):
         print('REVERSE POLISH NOTATION (RPN) CALCULATOR')
@@ -66,10 +70,10 @@ class RPNCalculatorCLI(RPNCalculator):
         return proceed_flag
 
     def display_stack(self):
-        stack_print_width = 0
         len_stack = len(self.stack)
-
+        index_print_width, stack_print_width = 0, 0
         if len_stack != 0:
+            index_print_width = floor(log10(len_stack)) + 1
             stack_print_width = max([len(str(num)) for num in self.stack])
 
         print('\nStack:')
@@ -77,6 +81,6 @@ class RPNCalculatorCLI(RPNCalculator):
             print('{0:>{width0}}: {1:>{width1}}'.format(
                 RPNCalculator.DISPLAY_STACK_INDICES[len_stack-1-i],
                 num,
-                width0=RPNCalculatorCLI.INDEX_PRINT_WIDTH,
+                width0=index_print_width,
                 width1=stack_print_width))
         print()
