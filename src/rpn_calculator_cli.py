@@ -11,6 +11,11 @@ from sys import exit
 
 
 class RPNCalculatorCLI(RPNCalculator):
+    """RPN calculator--CLI version
+
+    This derived class implements the abstract methods of the RPN
+    calculator ABC.
+    """
 
     def run(self):
         print('REVERSE POLISH NOTATION (RPN) CALCULATOR')
@@ -37,9 +42,8 @@ class RPNCalculatorCLI(RPNCalculator):
 
     def get_input(self):
         print('Operation/number: ', end='')
-        raw_input = input().strip()
 
-        return raw_input
+        return input().strip()
 
     def preprocess_input(self, error, refined_input):
         proceed_flag = False

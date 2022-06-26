@@ -172,7 +172,7 @@ class RPNCalculator(ABC):
                 self.stack.pop()
             elif operation == 'roll' or operation == 'r':
                 self.stack.insert(0, self.stack.pop())
-            elif operation == 'swap' or operation == 's':
+            else:  # operation == 'swap' or operation == 's'
                 self.stack[-2], self.stack[-1] = self.stack[-1], self.stack[-2]
 
     def display_stack(self):
