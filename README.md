@@ -1,7 +1,7 @@
 # rpn-calculator
-This is a [Reverse Polish notation (RPN)](https://en.wikipedia.org/wiki/Reverse_Polish_notation) calculator. Thus far, the [abstract base class](https://docs.python.org/3/library/abc.html) and a command-line-interface (CLI) version have been implemented.
+This is a [Reverse Polish notation (RPN)](https://en.wikipedia.org/wiki/Reverse_Polish_notation) calculator. Thus far, the [abstract base class](https://docs.python.org/3/library/abc.html) (`rpn_calculator.py`) and a command-line-interface (CLI) version (`rpn_calculator_cli.py`) have been implemented.
 
-`src/run.py` is used to run the command-line calculator. (Refer to [this article](https://realpython.com/run-python-scripts/) for how to run Python scripts.)
+`run.py` is used to run the command-line calculator. (Refer to [this article](https://realpython.com/run-python-scripts/) for how to run Python scripts.)
 
 Future improvements:
 1. Mitigate possible floating-point errors
